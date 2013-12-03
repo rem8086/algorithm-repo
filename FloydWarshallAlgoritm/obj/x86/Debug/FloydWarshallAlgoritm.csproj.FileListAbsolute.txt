@@ -1,0 +1,5 @@
+C:\Users\Sergey\documents\visual studio 2010\Projects\FloydWarshallAlgoritm\FloydWarshallAlgoritm\bin\Debug\FloydWarshallAlgoritm.exe
+C:\Users\Sergey\documents\visual studio 2010\Projects\FloydWarshallAlgoritm\FloydWarshallAlgoritm\bin\Debug\FloydWarshallAlgoritm.pdb
+C:\Users\Sergey\documents\visual studio 2010\Projects\FloydWarshallAlgoritm\FloydWarshallAlgoritm\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\Sergey\documents\visual studio 2010\Projects\FloydWarshallAlgoritm\FloydWarshallAlgoritm\obj\x86\Debug\FloydWarshallAlgoritm.exe
+C:\Users\Sergey\documents\visual studio 2010\Projects\FloydWarshallAlgoritm\FloydWarshallAlgoritm\obj\x86\Debug\FloydWarshallAlgoritm.pdb
