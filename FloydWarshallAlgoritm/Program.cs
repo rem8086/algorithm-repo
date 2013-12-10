@@ -9,6 +9,13 @@ namespace FloydWarshallAlgoritm
     {
         static void Main(string[] args)
         {
+            Sort<int> s = new Sort<int>();
+            int[] a = { 5, 2, 1, 3, 9, 0, 4, 6, 8, 7 };
+            int[] res = s.EvenOddSort(a);
+            for (int i = 0; i < res.Length; i++)
+            {
+                Console.Write(res[i] + " ");
+            }
             AdjacencyMatrix matr = new AdjacencyMatrix(6);
             matr.SetElement(0, 1, 2);
             matr.SetElement(0, 3, 5);
@@ -21,7 +28,7 @@ namespace FloydWarshallAlgoritm
             matr.SetElement(3, 4, 5);
             matr.SetElement(4, 2, 8);
             matr.SetElement(4, 5, -1);
-            Algoritm alg = new Algoritm(matr);
+            FlWaAlgoritm alg = new FlWaAlgoritm(matr);
             Console.WriteLine(alg.ShowResult());
             alg.AlgoritmStep();
             Console.WriteLine(alg.ShowResult());

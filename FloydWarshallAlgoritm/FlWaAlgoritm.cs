@@ -5,12 +5,12 @@ using System.Text;
 
 namespace FloydWarshallAlgoritm
 {
-    class Algoritm
+    class FlWaAlgoritm
     {
         AdjacencyMatrix previousMatrix;
         AdjacencyMatrix nextMatrix;
         
-        public Algoritm(AdjacencyMatrix inputMatrix)
+        public FlWaAlgoritm(AdjacencyMatrix inputMatrix)
         {
             previousMatrix = (AdjacencyMatrix)inputMatrix.Clone();
             nextMatrix = (AdjacencyMatrix)inputMatrix.Clone();
