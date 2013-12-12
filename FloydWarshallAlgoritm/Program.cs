@@ -11,11 +11,12 @@ namespace FloydWarshallAlgoritm
         {
             Sort<int> s = new Sort<int>();
             int[] a = { 5, 2, 1, 3, 9, 0, 4, 6, 8, 7 };
-            int[] res = s.EvenOddSort(a);
+            int[] res = s.CombSort(a);
             for (int i = 0; i < res.Length; i++)
             {
                 Console.Write(res[i] + " ");
             }
+            Console.WriteLine();
             AdjacencyMatrix matr = new AdjacencyMatrix(6);
             matr.SetElement(0, 1, 2);
             matr.SetElement(0, 3, 5);
