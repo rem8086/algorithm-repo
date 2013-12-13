@@ -57,7 +57,7 @@ class Sort<T> where T:IComporable<T>
 		}
 	}
 	
-	public T[] InsertionSort(T[] arr)
+	public T[] SelectionSort(T[] arr)
 	{
 		for (int i = 0; i < arr.Length-1; i++)
 		{
