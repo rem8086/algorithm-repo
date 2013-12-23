@@ -165,5 +165,128 @@ namespace FloydWarshallAlgoritm
             }
             return arr;
         }
+
+        public T[] MergeSort(T[] arr)
+        {
+            if (arr.Length == 1) return arr;
+            int partOneLength = Convert.ToInt32(Math.Truncate(arr.Length / 2.0));
+            T[] partOneArr = new T[partOneLength];
+            for (int i = 0; i < partOneLength; i++)
+            {
+                partOneArr[i] = arr[i];
+            }
+            T[] partTwoArr = new T[arr.Length - partOneLength];
+            for (int i = 0; i < arr.Length - partOneLength; i++)
+            {
+                partTwoArr[i] = arr[partOneLength + i];
+            }
+            partOneArr = MergeSort(partOneArr);
+            partTwoArr = MergeSort(partTwoArr);
+            int partOneIndex = 0, partTwoIndex = 0;
+            for (int i = 0; i < arr.Length; i++)
+            {
+                if (partOneIndex == partOneArr.Length) { arr[i] = partTwoArr[partTwoIndex++]; }
+                else if (partTwoIndex == partTwoArr.Length) { arr[i] = partOneArr[partOneIndex++]; }
+                else if (partOneArr[partOneIndex].CompareTo(partTwoArr[partTwoIndex]) < 0) { arr[i] = partOneArr[partOneIndex++]; } 
+                else { arr[i] = partTwoArr[partTwoIndex++]; }
+            }
+            return arr;
+        }
+
+        public T[] QuickSort(T[] arr)
+        {
+            if (arr.Length < 2) return arr;
+            if (arr.Length == 2)
+            {
+                if (arr[0].CompareTo(arr[1]) <= 0)
+                { 
+                    return arr; 
+                }
+                else
+                {
+                    return new T[] { arr[1], arr[0] };
+                }
+            }
+            int pivot = arr.Length - 1;
+            int lowborder = 0;
+            int highborder = arr.Length - 2;
+            while (lowborder < highborder)
+            {
+                while (arr[lowborder].CompareTo(arr[pivot]) < 0) { lowborder++; }
+                while ((arr[highborder].CompareTo(arr[pivot]) >= 0) && (highborder > 0)) { highborder--; }
+                if (highborder > lowborder)
+                {
+                    T temp = arr[lowborder];
+                    arr[lowborder] = arr[highborder];
+                    arr[highborder] = temp;
+                    lowborder++; highborder--;
+                }
+            }
+            if ((lowborder > highborder) ||
+                ((lowborder == highborder) && (arr[highborder].CompareTo(arr[pivot]) < 0)))
+            { highborder++; }
+            if (pivot!= highborder)
+            {
+                T temp = arr[highborder];
+                arr[highborder] = arr[pivot];
+                arr[pivot] = temp;
+                pivot = highborder;
+            }
+
+            T[] partonearr = new T[pivot];
+            T[] parttwoarr = new T[arr.Length - pivot - 1];
+            Array.Copy(arr, 0, partonearr, 0, pivot);
+            Array.Copy(arr, pivot + 1, parttwoarr, 0, arr.Length - pivot - 1);
+            partonearr = QuickSort(partonearr);
+            parttwoarr = QuickSort(parttwoarr);
+            for (int i = 0; i < arr.Length; i++)
+            {
+                if (i < pivot) { arr[i] = partonearr[i]; }
+                if (i > pivot) { arr[i] = parttwoarr[i - pivot - 1]; }
+            }
+            return arr;
+        }
+
+        public T[] QuickSort(T[] arr, int start, int finish)
+        {
+            if (finish - start < 1) { return arr; }
+            /* if (finish - start == 1)
+             {
+                 if (arr[finish].CompareTo(arr[start]) < 0)
+                 {
+                     T temp = arr[finish];
+                     arr[finish] = arr[start];
+                     arr[start] = temp;
+                 }
+                 return arr;
+             }*/
+            int pivot = finish;
+            int i = start;
+            int j = finish - 1;
+            while (i < j)
+            {
+                while (arr[i].CompareTo(arr[pivot]) < 0) { i++; }
+                while ((arr[j].CompareTo(arr[pivot]) >= 0) && (j > start)) { j--; }
+                if (i < j)
+                {
+                    T temp = arr[i];
+                    arr[i] = arr[j];
+                    arr[j] = temp;
+                    i++; j++;
+                }
+            }
+            if ((i > j) || ((i == j) && (arr[j].CompareTo(arr[pivot]) < 0))) { j++; }
+            if (pivot != j)
+            {
+                T temp = arr[pivot];
+                arr[pivot] = arr[j];
+                arr[j] = temp;
+                pivot = j;
+            }
+            QuickSort(arr, start, pivot - 1);
+            QuickSort(arr, pivot + 1, finish);
+            return arr;
+        }
+
     }
 }
