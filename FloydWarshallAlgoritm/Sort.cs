@@ -140,6 +140,49 @@ namespace FloydWarshallAlgoritm
             return arr;
         }
 
+        public T[] InsertionSort(T[] arr, int start, int finish)
+        {
+            T key;
+            for (int i = start + 1; i <= finish; i++)
+            {
+                key = arr[i];
+                int j = i - 1;
+                while ((j >= start) && (arr[j]).CompareTo(key) > 0)
+                {
+                    arr[j + 1] = arr[j];
+                    j--;
+                }
+                arr[j + 1] = key;
+            }
+            return arr;
+        }
+        
+        public T[] BinaryInsertionSort(T[] arr)
+        {
+            T key;
+            for (int i = 1; i < arr.Length; i++)
+            {
+                int left = 0;
+                int right = i; 
+                key = arr[i];
+                while (left < right)
+                {
+                    int middle = Convert.ToInt32(Math.Truncate((right + left) / 2.0));
+                    if (key.CompareTo(arr[middle]) < 0)
+                        right = middle;
+                    else
+                        left = middle + 1;
+                }
+                for (int j = i; j > left; j--)
+                {
+                    T temp = arr[j - 1];
+                    arr[j - 1] = arr[j];
+                    arr[j] = temp;
+                }
+            }
+            return arr;
+        }
+
         public T[] ShellSort(T[] arr)
         {
             if (arr.Length == 1) { return arr; }
@@ -173,7 +216,7 @@ namespace FloydWarshallAlgoritm
 				int min = i;
 				for (int j = i+1; j < arr.Length; j++)
 				{
-					if (arr[min] < arr[j]) {min = j;}
+					if (arr[min].CompareTo(arr[j])<0) {min = j;}
 				}
 				if (min != i)
 				{
@@ -269,16 +312,6 @@ namespace FloydWarshallAlgoritm
         public T[] QuickSort(T[] arr, int start, int finish)
         {
             if (finish - start < 1) { return arr; }
-            /* if (finish - start == 1)
-             {
-                 if (arr[finish].CompareTo(arr[start]) < 0)
-                 {
-                     T temp = arr[finish];
-                     arr[finish] = arr[start];
-                     arr[start] = temp;
-                 }
-                 return arr;
-             }*/
             int pivot = finish;
             int i = start;
             int j = finish - 1;
@@ -307,6 +340,168 @@ namespace FloydWarshallAlgoritm
             return arr;
         }
 
-    }
+		public T[] TimSort(T[] arr)
+		{
+			int minrun = TimSort_FindMinRun(arr.Length);
+			int current = 0;
+			List<T[]> runarraylist = new List<T[]>();
+			while (current < arr.Length-1)
+			{ 
+				int currentlength = 2;
+				bool reverse = (arr[current].CompareTo(arr[current+1]) > 0) ? true : false;
+				while (((reverse && (arr[current + currentlength - 2].CompareTo(arr[current + currentlength - 1]) > 0))||
+				(!reverse && (arr[current + currentlength - 2].CompareTo(arr[current + currentlength - 1]) <= 0))) &&
+				(current + currentlength < arr.Length))
+				{ 
+					currentlength++; 
+				}
+                if (reverse)
+                {
+                    for (int i = current; i < Convert.ToInt32(Math.Truncate(currentlength / 2.0)); i++)
+                    {
+                        T temp = arr[i];
+                        arr[i] = arr[currentlength - i];
+                        arr[currentlength - i] = temp;
+                    }
+                }
+				//int originalcurrentlength = currentlength;
+				if (current + currentlength == arr.Length - 1) currentlength++;
+				if (currentlength < minrun) currentlength = minrun; 
+				if (current + currentlength < arr.Length) currentlength = arr.Length - current;
+                /*T[] currentarray = new T[currentlength];
+                for (int i = 0; i < currentlength; i++)
+                {
+                    if ((reverse)&&(i < originalcurrentlength))
+                    {
+                        currentarray[originalcurrentlength - 1 - i] = arr[current + i];
+                    } else
+                    {
+                        currentarray[i] = arr[current + i];
+                    }
+                }*/
+                arr = InsertionSort(arr, current, current + currentlength-1);
+				//runarraylist.Add(InsertionSort(currentarray));
+				runarraylist = TimSort_MergeSubArray(runarraylist);
+				current += currentlength;
+                                                    //здесь добавление подмассива в стек (можно лист чтобы меньше переписывать)
+                                                    //работа с существующим стеком
+			}
+			//runarraylist.Reverse(); // проверить как работает reverse
+			T[] resultarray = runarraylist[runarraylist.Count-1];
+            for (int i = runarraylist.Count-2; i >= 0; i--)
+            {
+                resultarray = TimSort_Merge(resultarray, runarraylist[i]);
+            }
+			return resultarray;
+		}
+		
+		int TimSort_FindMinRun(int length)
+		{
+			int minrun = length;
+			int rightcount = 0;
+			while (minrun >= 64)
+			{
+				minrun = Convert.ToInt32((Math.Truncate(minrun / 2.0)));
+				rightcount++;
+			}
+			if (length % Math.Pow(2,rightcount) != 0) minrun++;
+			return minrun;
+		}
+	
+		T[] TimSort_Merge(T[] arr1, T[] arr2) //проверить как будет работать с одним пустым массивом
+		{
+			T[] resultarr = new T[arr1.Length + arr2.Length];
+			int counter = 0;
+			int arr1index = 0, arr2index = 0;
+			for (int i = 0; i < resultarr.Length; i++)
+			{
+				if (arr1index == arr1.Length)
+				{
+					resultarr[i] = arr2[arr2index++];
+					counter = (counter < 8) ? 8 : counter + 1;
+				}
+				else if (arr2index == arr2.Length) 
+				{
+					resultarr[i] = arr1[arr1index++];
+					counter = (counter > 7) ? 1 : counter + 1;
+				}
+				else if (arr1[arr1index].CompareTo(arr2[arr2index]) < 0) 
+				{
+					resultarr[i] = arr1[arr1index++];
+					counter = (counter > 7) ? 1 : counter + 1;
+				} else 
+				{
+					resultarr[i] = arr2[arr2index++];
+					counter = (counter < 8) ? 8 : counter + 1;
+				}
+				if (counter == 7)
+				{
+					int addel = TimSort_Galop(arr1, arr1index-1, arr2[arr2index]);
+					for (int j = 1; j <= addel; j++)
+					{
+						resultarr[i+j] = arr1[arr1index+j-1];
+					}
+					arr1index = arr1index+addel;
+					i=i+addel;
+					counter = 0;
+				}
+				if (counter == 14)
+				{
+					int addel = TimSort_Galop(arr2, arr2index-1, arr1[arr1index]);
+					for (int j = 1; j <= addel; j++)
+					{
+						resultarr[i+j] = arr2[arr2index+j-1];
+					}
+					arr2index = arr2index+addel;
+					i=i+addel;
+					counter = 0;
+				}
+			}
+			return resultarr;
+		}
+		
+		List<T[]> TimSort_MergeSubArray(List<T[]> arraylist) // проверить индексацию List
+		{
+			int count = arraylist.Count;
+			if (count < 3) return arraylist;
+			if ((arraylist[count-1].Length > arraylist[count-2].Length + arraylist[count-3].Length)&&
+                (arraylist[count-2].Length > arraylist[count-3].Length))
+			{
+				return arraylist;
+			}
+			if (arraylist[count-1].Length > arraylist[count-3].Length)
+			{
+				arraylist[count-3] = TimSort_Merge(arraylist[count-3], arraylist[count-2]);
+			} else
+			{
+                arraylist[count - 1] = TimSort_Merge(arraylist[count - 1], arraylist[count - 2]);
+			}
+			arraylist.RemoveAt(count-2);
+			return TimSort_MergeSubArray(arraylist);
+		}
+		
+		int TimSort_Galop(T[] arr, int arrindex, T maxel) //возвращает количество элементов из подмассива для переноса
+		{
+			int i = -1;
+			/*int count = (Math.Pow(2,i+1) < arr.Length-arrindex-1) ? Math.Pow(2,i+1) : arr.Length-arrindex-1;
+			while ((Math.Pow(2,i+1) + arrindex < arr.Length)&&(arr[arrindex+Math.Pow(2,i+1)] <= maxel))
+			{
+				i++;
+			}
+			if (i == -1) return 0;
+			return Math.Pow(2,i);*/
+			while (true)
+			{
+				if (Math.Pow(2,i+1) >= arr.Length - arrindex)
+				{
+					if (arr[arr.Length-1].CompareTo(maxel) > 0) return Convert.ToInt32(Math.Pow(2,i)); 
+                        else return arr.Length-arrindex-1;
+				}
+				if (arr[Convert.ToInt32(Math.Pow(2,i+1))].CompareTo(maxel) > 0) return (i < 0) ? 0 : Convert.ToInt32(Math.Pow(2,i));
+				i++;
+			}
+		}
+	
+	}
 }
 
