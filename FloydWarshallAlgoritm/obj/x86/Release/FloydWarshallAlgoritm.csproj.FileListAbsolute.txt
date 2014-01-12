@@ -1,0 +1,5 @@
+C:\Users\Sergey\Documents\GitHub\FloydWarshallAlgorithm\FloydWarshallAlgoritm\bin\Release\FloydWarshallAlgoritm.exe
+C:\Users\Sergey\Documents\GitHub\FloydWarshallAlgorithm\FloydWarshallAlgoritm\bin\Release\FloydWarshallAlgoritm.pdb
+C:\Users\Sergey\Documents\GitHub\FloydWarshallAlgorithm\FloydWarshallAlgoritm\obj\x86\Release\ResolveAssemblyReference.cache
+C:\Users\Sergey\Documents\GitHub\FloydWarshallAlgorithm\FloydWarshallAlgoritm\obj\x86\Release\FloydWarshallAlgoritm.exe
+C:\Users\Sergey\Documents\GitHub\FloydWarshallAlgorithm\FloydWarshallAlgoritm\obj\x86\Release\FloydWarshallAlgoritm.pdb
