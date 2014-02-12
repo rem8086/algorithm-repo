@@ -53,6 +53,7 @@
     <Compile Include="Sort\CombSort.cs" />
     <Compile Include="Sort\EvenOddSort.cs" />
     <Compile Include="Sort\GnomeSort.cs" />
+    <Compile Include="Sort\HeapSort.cs" />
     <Compile Include="Sort\InsertionSort.cs" />
     <Compile Include="Sort\ISort.cs" />
     <Compile Include="Sort\MergeSort.cs" />

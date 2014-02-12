@@ -92,6 +92,23 @@ namespace FloydWarshallAlgoritm
             {
                 arr[i] = rnd.Next(1000000);
             }
+            for (int i = 0; i < arr.Length; i++)
+            {
+                arr[i] = rnd.Next(10000);
+            }
+            dt = DateTime.Now;
+            s = new HeapSort<int>();
+            arr = s.Sorting(arr);
+            Console.WriteLine("Time for HeapSort is {0}.", DateTime.Now - dt);
+            int ddd = 0;
+            for (int i = 0; i < arr.Length - 2; i++)
+            {
+                //Console.Write(arr[i] + " ");
+                if (arr[i] > arr[i + 1]) //Console.WriteLine("Fatal ERROR!!!");
+                    ddd++;
+            }
+            Console.WriteLine("Error count: {0}", ddd);
+
             dt = DateTime.Now;
             s = new MergeSort<int>();
             arr = s.Sorting(arr);
@@ -118,7 +135,7 @@ namespace FloydWarshallAlgoritm
             s = new TimSort<int>();
             arr = s.Sorting(arr);
             Console.WriteLine("Time for TimSort is {0}.", DateTime.Now - dt);
-            int ddd = 0;
+            ddd = 0;
             for (int i = 0; i < arr.Length - 2; i++)
             {
                 //Console.Write(arr[i] + " ");
